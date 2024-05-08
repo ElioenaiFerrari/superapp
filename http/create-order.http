@@ -1,0 +1,6 @@
+POST http://localhost:80/api/v1/users/1/orders
+Content-Type: application/json
+
+{
+  "plate_ids": [1, 2, 3]
+}

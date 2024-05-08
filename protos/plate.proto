@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package services;
+
+option go_package = "github.com/ElioenaiFerrari/superapp/internal/services";
+
+message GetPlateRequest {
+  int64 id = 1;
+}
+
+message ListPlatesRequest {
+  int64 catalog_id = 1;
+}
+
+message ListPlatesResponse {
+  repeated Plate plates = 1;
+}
+
+message Plate {
+  int64 id = 1;
+  int64 catalog_id = 2;
+  string name = 3;
+  int64 price = 4;
+  string image_url = 5;
+}
+
+service PlateService {
+  rpc GetPlate(GetPlateRequest) returns (Plate) {}
+  rpc ListPlates(ListPlatesRequest) returns (ListPlatesResponse) {}
+}

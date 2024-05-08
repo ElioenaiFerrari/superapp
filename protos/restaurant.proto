@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package services;
+
+option go_package = "github.com/ElioenaiFerrari/superapp/internal/services";
+
+message GetRestaurantRequest {
+  int64 id = 1;
+}
+
+message Restaurant {
+  int64 id = 1;
+  string name = 2;
+  string image_url = 3;
+}
+
+message ListRestaurantsResponse {
+  repeated Restaurant restaurants = 1;
+}
+
+message Empty {}
+
+service RestaurantService {
+  rpc GetRestaurant(GetRestaurantRequest) returns (Restaurant) {}
+  rpc ListRestaurants(Empty) returns (ListRestaurantsResponse) {}
+}

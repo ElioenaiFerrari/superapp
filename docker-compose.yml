@@ -1,0 +1,73 @@
+version: "3.8"
+
+services:
+  restaurants:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - APP=restaurants
+    environment:
+      - HOST=:4001
+    networks:
+      - superapp
+
+  catalogs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - APP=catalogs
+    environment:
+      - HOST=:4002
+    networks:
+      - superapp
+
+  plates:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - APP=plates
+    environment:
+      - HOST=:4003
+    networks:
+      - superapp
+
+  orders:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - APP=orders
+    environment:
+      - HOST=:4004
+      - RESTAURANTS_HOST=restaurants:4001
+      - CATALOGS_HOST=catalogs:4002
+      - PLATES_HOST=plates:4003
+    networks:
+      - superapp
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - APP=api
+    environment:
+      - HOST=:4000
+      - RESTAURANTS_HOST=restaurants:4001
+      - CATALOGS_HOST=catalogs:4002
+      - PLATES_HOST=plates:4003
+      - ORDERS_HOST=orders:4004
+    networks:
+      - superapp
+    depends_on:
+      - restaurants
+    ports:
+      - "80:4000"
+      - "2345:2345"
+
+networks:
+  superapp:
+    driver: bridge
